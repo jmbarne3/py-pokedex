@@ -11,3 +11,26 @@ This project endeavors to create a searchable, robust representation of the [Pok
 5. Run initial migrations and import data: `python manage.py setup`
 6. Launch the API locally: `python manage.py runserver`
 
+## Commands
+
+A number of custom management commands have been created to help manage the project.
+
+### Setup Command
+
+The initial setup of the project (or subsequently during deployment) using the `setup` command:
+
+```
+python manage.py setup
+```
+
+This will migrate the database and collect static assets.
+
+### Import Pokeapi Command
+
+In order to pull in the data from [Pokeapi.co](https://pokeapi.co), you can run the `import-pokeapi` command:
+
+```
+python manage.py import-pokeapi [--pokeapi-url=https://pokeapi.co/api/v1] [--max-threads=5]
+```
+
+This will pull in all the pokemon within the dataset and usually takes around 60 seconds in its current form.
