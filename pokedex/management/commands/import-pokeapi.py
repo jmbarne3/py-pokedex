@@ -117,7 +117,7 @@ class Command(BaseCommand):
         from the Pokeapi
         """
         pokeapi_id: int = data['id']
-        name: str = data['name']
+        name: str = self.__format_name(data['name'], True)
         base_experience: str = data['base_experience'] if data['base_experience'] is not None else 0
         height: int = data['height']
         order: int = data['order']
@@ -137,7 +137,7 @@ class Command(BaseCommand):
         with self.db_lock:
             try:
                 pokemon = Pokemon.objects.get(pokeapi_id=pokeapi_id)
-                pokemon.name = name.capitalize()
+                pokemon.name = name
                 pokemon.base_experience = base_experience
                 pokemon.height = height
                 pokemon.order = order
@@ -150,7 +150,7 @@ class Command(BaseCommand):
             except Pokemon.DoesNotExist:
                 pokemon = Pokemon(
                     pokeapi_id=pokeapi_id,
-                    name=name.capitalize(),
+                    name=name,
                     base_experience=base_experience,
                     height=height,
                     order=order,
@@ -169,6 +169,16 @@ class Command(BaseCommand):
         for pa in abilities:
             dpa = self.__get_or_create_pokemon_ability(pa, pokemon)
             pokemon.pokemon_abilities.add(dpa)
+
+
+    def __format_name(self, name: str, parenthesis: bool = False) -> str:
+        div_name = name.split('-')
+        div_name = list(map(str.capitalize, div_name))
+
+        if len(div_name) > 1 and parenthesis:
+            return f"{div_name[0]} ({' '.join(div_name[1:])})"
+
+        return ' '.join(div_name)
 
 
     def __get_or_create_pokemon_type(self, type_data: Any, pokemon: Pokemon) -> PokemonTypeSlot:
@@ -215,7 +225,7 @@ class Command(BaseCommand):
         data = response.json()
 
         pokeapi_id: int = data['id']
-        name: str = data['name']
+        name: str = self.__format_name(data['name'])
         long_effect: str = ""
         short_effect: str = ""
 
@@ -232,14 +242,14 @@ class Command(BaseCommand):
         with self.db_lock:
             try:
                 ab = Ability.objects.get(pokeapi_id=pokeapi_id)
-                ab.name = name.capitalize()
+                ab.name = name
                 ab.long_effect = long_effect
                 ab.short_effect = short_effect
                 ab.save()
             except Ability.DoesNotExist:
                 ab = Ability(
                     pokeapi_id=pokeapi_id,
-                    name=name.capitalize(),
+                    name=name,
                     long_effect=long_effect,
                     short_effect=short_effect
                 )
