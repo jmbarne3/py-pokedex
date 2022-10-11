@@ -34,6 +34,7 @@ class PokemonAbilitySlotSerializer(serializers.ModelSerializer):
         model = PokemonAbilitySlot
         fields = '__all__'
 
+
 class PokemonSerializer(serializers.ModelSerializer):
     pokemon_types = PokemonTypeSlotSerializer(many=True)
     pokemon_abilities = PokemonAbilitySlotSerializer(many=True)
@@ -43,6 +44,18 @@ class PokemonSerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'base_experience',
+            'base_hp',
+            'effort_hp',
+            'base_attack',
+            'effort_attack',
+            'base_defense',
+            'effort_defense',
+            'base_special_attack',
+            'effort_special_attack',
+            'base_special_defense',
+            'effort_special_defense',
+            'base_speed',
+            'effort_speed',
             'height',
             'order',
             'weight',

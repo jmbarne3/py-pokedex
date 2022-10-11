@@ -31,6 +31,18 @@ class Pokemon(models.Model):
     weight = models.IntegerField(null=False, blank=False)
     official_image_url = models.URLField(null=True, blank=True)
     sprite_url =models.URLField(null=True, blank=True)
+    base_hp = models.IntegerField(null=False, blank=False, default=0)
+    effort_hp = models.IntegerField(null=False, blank=False, default=0)
+    base_attack = models.IntegerField(null=False, blank=False, default=0)
+    effort_attack = models.IntegerField(null=False, blank=False, default=0)
+    base_defense = models.IntegerField(null=False, blank=False, default=0)
+    effort_defense = models.IntegerField(null=False, blank=False, default=0)
+    base_special_attack = models.IntegerField(null=False, blank=False, default=0)
+    effort_special_attack = models.IntegerField(null=False, blank=False, default=0)
+    base_special_defense = models.IntegerField(null=False, blank=False, default=0)
+    effort_special_defense = models.IntegerField(null=False, blank=False, default=0)
+    base_speed = models.IntegerField(null=False, blank=False, default=0)
+    effort_speed = models.IntegerField(null=False, blank=False, default=0)
 
     def __str__(self):
         return self.name

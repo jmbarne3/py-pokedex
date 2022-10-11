@@ -132,6 +132,42 @@ class Command(BaseCommand):
             len(data['sprites']['other']['official-artwork']) > 0:
             official_image_url = data['sprites']['other']['official-artwork']['front_default']
 
+        base_hp = 0
+        base_attack = 0
+        base_defense = 0
+        base_special_attack = 0
+        base_special_defense = 0
+        base_speed = 0
+
+        effort_hp = 0
+        effort_attack = 0
+        effort_defense = 0
+        effort_special_attack = 0
+        effort_special_defense = 0
+        effort_speed = 0
+
+        # Gather all the stats
+        for stat in data['stats']:
+            if stat['stat']['name'] == 'hp':
+                base_hp = stat['base_stat']
+                effort_hp = stat['effort']
+            elif stat['stat']['name'] == 'attack':
+                base_attack = stat['base_stat']
+                effort_attack = stat['effort']
+            elif stat['stat']['name'] == 'defense':
+                base_defense = stat['base_stat']
+                effort_defense = stat['effort']
+            elif stat['stat']['name'] == 'special-attack':
+                base_special_attack = stat['base_stat']
+                effort_special_attack = stat['effort']
+            elif stat['stat']['name'] == 'special-defense':
+                base_special_defense = stat['base_stat']
+                effort_special_defense = stat['effort']
+            elif stat['stat']['name'] == 'speed':
+                base_speed = stat['base_stat']
+                effort_speed = stat['effort']
+
+
         pokemon = None
 
         with self.db_lock:
@@ -139,6 +175,18 @@ class Command(BaseCommand):
                 pokemon = Pokemon.objects.get(pokeapi_id=pokeapi_id)
                 pokemon.name = name
                 pokemon.base_experience = base_experience
+                pokemon.base_hp = base_hp
+                pokemon.effort_hp = effort_hp
+                pokemon.base_attack = base_attack
+                pokemon.effort_attack = effort_attack
+                pokemon.base_defense = base_defense
+                pokemon.effort_defense = effort_defense
+                pokemon.base_special_attack = base_special_attack
+                pokemon.effort_special_attack = effort_special_attack
+                pokemon.base_special_defense = base_special_defense
+                pokemon.effort_special_defense = effort_special_defense
+                pokemon.base_speed = base_speed
+                pokemon.effort_speed = effort_speed
                 pokemon.height = height
                 pokemon.order = order
                 pokemon.weight = weight
@@ -152,6 +200,18 @@ class Command(BaseCommand):
                     pokeapi_id=pokeapi_id,
                     name=name,
                     base_experience=base_experience,
+                    base_hp=base_hp,
+                    effort_hp=effort_hp,
+                    base_attack=base_attack,
+                    effort_attack=effort_attack,
+                    base_defense=base_defense,
+                    effort_defense=effort_defense,
+                    base_special_attack=base_special_attack,
+                    effort_special_attack=effort_special_attack,
+                    base_special_defense=base_special_defense,
+                    effort_special_defense=effort_special_defense,
+                    base_speed=base_speed,
+                    effort_speed=effort_speed,
                     height=height,
                     order=order,
                     weight=weight,
